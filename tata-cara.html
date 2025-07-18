@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tuntunan Sholat</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+            rel="stylesheet">
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <style>
+            /* Basic Reset and Body Styling */
+            html {
+                box-sizing: border-box;
+            }
+            *,
+            *:after,
+            *:before {
+                box-sizing: inherit;
+            }
+            body,
+            html {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                font-family: 'Poppins', sans-serif;
+                background-color: #f4f7f6;
+            }
+
+            /* Header Styling */
+            header {
+                background-color: #fff;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                padding: 10px 20px;
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+            }
+            header .container {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            header .logo {
+                font-size: 1.5em;
+                font-weight: 700;
+                color: #2c3e50;
+            }
+            header .logo .fa-mosque {
+                color: #27ae60;
+            }
+            header nav ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                gap: 20px;
+            }
+            header nav a {
+                text-decoration: none;
+                color: #34495e;
+                font-weight: 500;
+                transition: color 0.3s;
+            }
+            header nav a:hover,
+            header nav a[style*="--secondary-color"] {
+                color: #27ae60;
+                /* Highlight color */
+            }
+            /* Hiding search form as it was unstyled */
+            .form-inline {
+                display: none;
+            }
+
+            /* Main Content Layout */
+            .main-content-wrapper {
+                display: flex;
+                gap: 20px;
+                padding: 20px;
+                height: calc(100vh - 70px);
+                /* Full height minus header */
+            }
+
+            /* Left Dashboard (Sidebar) */
+            .dashboard-container {
+                flex: 0 0 280px;
+                /* Fixed width, won't grow or shrink */
+                background-color: #ffffff;
+                padding: 15px;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+                overflow-y: auto;
+            }
+            .dashboard-container ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+            .dashboard-item {
+                cursor: pointer;
+                padding: 10px 15px;
+                margin-bottom: 8px;
+                background-color: #f9f9f9;
+                border-radius: 5px;
+                display: flex;
+                align-items: center;
+                transition: background-color 0.3s, transform 0.2s;
+                border-left: 4px solid transparent;
+            }
+            .dashboard-item:hover {
+                background-color: #e9e9e9;
+                transform: translateX(3px);
+            }
+            .dashboard-item.active {
+                background-color: #e8f5e9;
+                /* Light green for active */
+                color: #1b5e20;
+                font-weight: 600;
+                border-left: 4px solid #4caf50;
+                /* Green indicator */
+            }
+            .dashboard-item img {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                margin-right: 15px;
+                object-fit: cover;
+            }
+
+            /* Right Content Area */
+            .sholat-guide-container {
+                flex-grow: 1;
+                /* Takes up the remaining space */
+                background-color: #fff;
+                padding: 30px;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+                overflow-y: auto;
+            }
+            .sholat-detail {
+                display: none;
+                /* Hidden by default */
+            }
+            .sholat-detail.active {
+                display: block;
+                /* Shown when active */
+            }
+            .sholat-detail ol {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+            .sholat-detail li {
+                text-align: center;
+                /* Center align all text by default */
+            }
+
+            /* Centered Content Elements */
+            .sholat-detail .gambar video {
+                width: 100%;
+                max-width: 600px;
+                /* Set a max-width for large screens */
+                height: auto;
+                border-radius: 8px;
+                margin: 20px auto;
+                /* Center the video block */
+                display: block;
+            }
+            .sholat-detail strong {
+                display: flex;
+                justify-content: start;
+                padding-bottom: 20px;
+                font-size: 1.5em;
+                color: #2c3e50;
+            }
+            .sholat-detail .arabic {
+                font-family: "Traditional Arabic", serif;
+                font-size: 2.2em;
+                text-align: right;
+                /* Keep Arabic text right-aligned */
+                margin: 20px auto 10px;
+                line-height: 1.8;
+                color: #333;
+                max-width: 600px;
+                /* Match max-width for alignment */
+            }
+            .sholat-detail .latin {
+                font-style: italic;
+                color: #555;
+                margin: 10px auto;
+                max-width: 600px;
+            }
+            .sholat-detail .translation {
+                color: #666;
+                margin: 5px auto 20px;
+                max-width: 600px;
+                line-height: 1.6;
+            }
+            .sholat-detail .hadap {
+                font-weight: bold;
+                font-size: 1.1em;
+                margin-top: 25px;
+                color: #333;
+            }
+
+            /* Responsive adjustments */
+            @media (max-width: 768px) {
+                .main-content-wrapper {
+                    flex-direction: column;
+                    height: auto;
+                }
+                .dashboard-container {
+                    flex: none;
+                    width: 100%;
+                    max-height: 250px;
+                    /* Limit height for the scrollable menu */
+                }
+            }
+
+            /* KODE BARU: Styling untuk scrollbar dinamis */
+            /* Ini menargetkan browser berbasis WebKit (Chrome, Safari, Edge) */
+            .dashboard-container::-webkit-scrollbar,
+            .sholat-guide-container::-webkit-scrollbar {
+                width: 8px;
+                /* Lebar scrollbar */
+            }
+            .dashboard-container::-webkit-scrollbar-track,
+            .sholat-guide-container::-webkit-scrollbar-track {
+                background: transparent;
+                /* Track tidak terlihat */
+            }
+            .dashboard-container::-webkit-scrollbar-thumb,
+            .sholat-guide-container::-webkit-scrollbar-thumb {
+                background-color: transparent;
+                /* Tombol scrollbar tidak terlihat default */
+                border-radius: 4px;
+                transition: background-color 0.3s ease;
+                /* Transisi halus */
+            }
+            /* Saat class .scrolling aktif, buat scrollbar terlihat */
+            .dashboard-container.scrolling::-webkit-scrollbar-thumb,
+            .sholat-guide-container.scrolling::-webkit-scrollbar-thumb {
+                background-color: #cccccc;
+                /* Warna scrollbar saat terlihat */
+            }
+            .dashboard-container.scrolling::-webkit-scrollbar-thumb:hover,
+            .sholat-guide-container.scrolling::-webkit-scrollbar-thumb:hover {
+                background-color: #a8a8a8;
+                /* Warna saat cursor di atasnya */
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <div class="container">
+                <div class="logo">
+                    <i class="fas fa-mosque"></i>
+                    Tuntunan Sholat
+                </div>
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="index.html">Beranda</a>
+                        </li>
+                        <li>
+                            <a href="tata-cara.html" style="color: #27ae60;">Tata Cara Sholat</a>
+                        </li>
+                        <li>
+                            <a href="doa-dzikir.html">Doa-doa</a>
+                        </li>
+                        <li>
+                            <a href="waktu-sholat.html">Waktu Sholat</a>
+                        </li>
+                        <li>
+                            <a href="artikel.html">Artikel</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <section id="tata-cara" class="content-section">
+            <div class="main-content-wrapper">
+                <div class="dashboard-container">
+                    <ul>
+                        <li class="dashboard-item" data-target="takbir-detail">
+                            <img
+                                src="https://placehold.co/100x100/A0D9B4/000000?text=Takbir"
+                                alt="Gambar Takbiratul Ihram">
+                            Takbiratul Ihram
+                        </li>
+                        <li class="dashboard-item" data-target="doa-iftitah-detail">
+                            <img
+                                src="https://placehold.co/100x100/A0D9B4/000000?text=Iftitah"
+                                alt="Gambar Doa Iftitah">
+                            Doa Iftitah
+                        </li>
+                        <li class="dashboard-item" data-target="alfatihah-detail">
+                            <img
+                                src="https://placehold.co/100x100/A0D9B4/000000?text=Fatihah"
+                                alt="Gambar Membaca Al-Fatihah">
+                            Membaca Al-Fatihah
+                        </li>
+                        <li class="dashboard-item" data-target="surah-pendek-detail">
+                            <img
+                                src="https://placehold.co/100x100/A0D9B4/000000?text=Rukuk"
+                                alt="Gambar Rukuk">
+                            Membaca surah pendek
+                        </li>
+                        <li class="dashboard-item" data-target="rukuk-detail">
+                            <img
+                                src="https://placehold.co/100x100/A0D9B4/000000?text=Rukuk"
+                                alt="Gambar Rukuk">
+                            Rukuk
+                        </li>
+                        <li class="dashboard-item" data-target="itidal-detail">
+                            <img
+                                src="https://placehold.co/100x100/A0D9B4/000000?text=I'tidal"
+                                alt="Gambar I'tidal">
+                            I'tidal
+                        </li>
+                        <li class="dashboard-item" data-target="sujud-detail">
+                            <img
+                                src="https://placehold.co/100x100/A0D9B4/000000?text=Sujud"
+                                alt="Gambar Sujud">
+                            Sujud
+                        </li>
+                        <li class="dashboard-item" data-target="duduk-dua-sujud-detail">
+                            <img
+                                src="https://placehold.co/100x100/A0D9B4/000000?text=Duduk"
+                                alt="Gambar Duduk Antara Dua Sujud">
+                            Duduk Antara Dua Sujud
+                        </li>
+                        <li class="dashboard-item" data-target="tasyahud-awal-detail">
+                            <img
+                                src="https://placehold.co/100x100/A0D9B4/000000?text=Tasyahud"
+                                alt="Gambar Tasyahud Akhir">
+                            Tasyahud Awal
+                        </li>
+                        <li class="dashboard-item" data-target="tasyahud-akhir-detail">
+                            <img
+                                src="https://placehold.co/100x100/A0D9B4/000000?text=Tasyahud"
+                                alt="Gambar Tasyahud Akhir">
+                            Tasyahud Akhir
+                        </li>
+                        <li class="dashboard-item" data-target="salam-detail">
+                            <img
+                                src="https://placehold.co/100x100/A0D9B4/000000?text=Salam"
+                                alt="Gambar Salam">
+                            Salam
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="sholat-guide-container">
+                    <div id="takbir-detail" class="sholat-detail">
+                        <ol>
+                            <li>
+                                <strong>1. Takbiratul Ihram</strong>
+                                <div class="gambar">
+                                    <video
+                                        controls="controls"
+                                        src="Takbiratul_Ikhram.mp4"
+                                        alt="Video Takbiratul Ihram"></video>
+                                </div>
+                                <p class="arabic">اللَّهُ أَكْبَرُ</p>
+                                <p class="latin">"Allahu Akbar"</p>
+                                <p class="translation">"Allah Maha Besar"</p>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div id="doa-iftitah-detail" class="sholat-detail">
+                        <ol>
+                            <li>
+                                <strong>2. Doa Iftitah</strong>
+                                <div class="gambar">
+                                    <video controls="controls" src="Iftitah.mp4" alt="Video Doa Iftitah"></video>
+                                </div>
+                                <p class="arabic">اللَّهُمَّ بَاعِدْ بَيْنِي وَبَيْنَ خَطَايَايَ ، كَمَا
+                                    بَاعَدْتَ بَيْنَ المَشْرِقِ وَالمَغْرِبِ ، اللَّهُمَّ نَقِّنِي مِنَ الخَطَايَا ،
+                                    كَمَا يُنَقَّى الثَّوْبُ الأَبْيَضُ مِنَ الدَّنَسِ ، اللَّهُمَّ اغْسِلْ
+                                    خَطَايَايَ بِالْمَاءِ ، وَالثَّلْجِ ، وَالبَرَدِ</p>
+                                <p class="latin">"Allahumma baaid baynii wa bayna khotoyaaya kamaa baa’adta
+                                    baynal masyriqi wal maghrib. Allahumma naqqinii min khotoyaaya kamaa yunaqqots
+                                    tsaubul abyadhu minad danas. Allahummagh-silnii min khotoyaaya bil maa-iwats
+                                    tsalji wal barod. "</p>
+                                <p class="translation">"Wahai Allah jauhkanlah antara aku dan
+                                    kesalahan-kesalahanku sebagaimana engkau jauhkan antara timur dan barat, ya
+                                    Allah bersihkanlah aku dari kesalahan sebagaimana bersihnya baju putih dari
+                                    kotoran, ya Allah basuhlah kesalahan-kesalahanku dengan air, salju dan air
+                                    dingin."</p>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div id="alfatihah-detail" class="sholat-detail">
+                        <ol>
+                            <li>
+                                <strong>3. Membaca Alfatihah</strong>
+                                <div class="gambar">
+                                    <video controls="controls" src="Iftitah.mp4" alt="Video Doa Iftitah"></video>
+                                </div>
+                                <p class="arabic">الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ الرَّحْمَٰنِ الرَّحِيمِ
+                                    مَالِكِ يَوْمِ الدِّينِ إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ اهْدِنَا
+                                    الصِّرَاطَ الْمُسْتَقِيمَ صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ
+                                    الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ</p>
+                                <p class="latin">"Alhamdu lillahi rabbil 'alamin. Arrahmanirrahim. Maliki
+                                    yawmiddin. Iyyaka na'budu wa iyyaka nasta'in. Ihdinas-siratal-mustaqim.
+                                    Siratal-ladhina an'amta 'alayhim ghayril-maghzubi 'alayhim wa lad-dallin."</p>
+                                <p class="translation">"Segala puji bagi Allah, Tuhan semesta alam. Yang Maha
+                                    Pengasih, Maha Penyayang. Pemilik hari pembalasan (hari kiamat). Hanya kepada
+                                    Engkaulah kami menyembah, dan hanya kepada Engkaulah kami memohon pertolongan.
+                                    Tunjukilah kami jalan yang lurus. Yaitu jalan orang-orang yang telah Engkau beri
+                                    nikmat, bukan jalan orang-orang yang dimurkai dan bukan pula jalan orang-orang
+                                    yang sesat."</p>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div id="surah-pendek-detail" class="sholat-detail">
+                        <ol>
+                            <li>
+                                <strong>4. Membaca Surah Pendek</strong>
+                                <div class="gambar">
+                                    <video controls="controls" src="Surah_Pendek.mp4" alt="Video Rukuk"></video>
+                                </div>
+                                <p class="arabic">وَالتِّينِ وَالزَّيْتُونِ وَطُورِ سِينِينَ وَهَذَا الْبَلَدِ
+                                    الْأَمِينِ لَقَدْ خَلَقْنَا الْإِنْسَانَ فِي أَحْسَنِ تَقْوِيمٍ ثُمَّ
+                                    رَدَدْنَاهُ أَسْفَلَ سَافِلِينَ إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا
+                                    الصَّالِحَاتِ فَلَهُمْ أَجْرٌ غَيْرُ مَمْنُونٍ فَمَا يُكَذِّبُكَ بَعْدُ
+                                    بِالدِّينِ أَلَيْسَ اللَّهُ بِأَحْكَمِ الْحَاكِمِينَ</p>
+                                <p class="latin">"wat-tīni waz-zaitụn wa ṭụri sīnīn wa hāżal-baladil-amīn laqad
+                                    khalaqnal-insāna fī aḥsani taqwīm ṡumma radadnāhu asfala sāfilīn illallażīna
+                                    āmanụ wa ‘amiluṣ-ṣāliḥāti fa lahum ajrun gairu mamnụn fa mā yukażżibuka ba’du
+                                    bid-dīn a laisallāhu bi`aḥkamil-ḥākimīn
+                                </p>
+                                <p class="translation">"Demi (buah) Tin dan (buah) Zaitun, demi gunung Sinai,
+                                    dan demi negeri (Mekah) yang aman ini. Sungguh, Kami telah menciptakan manusia
+                                    dalam bentuk yang sebaik-baiknya, kemudian Kami kembalikan dia ke tempat yang
+                                    serendah-rendahnya, kecuali orang-orang yang beriman dan mengerjakan kebajikan;
+                                    maka mereka akan mendapat pahala yang tidak ada putus-putusnya. Maka apa yang
+                                    menyebabkan (mereka) mendustakanmu (tentang) hari pembalasan setelah (adanya
+                                    keterangan-keterangan) itu? Bukankah Allah hakim yang paling adil? "</p>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div id="rukuk-detail" class="sholat-detail">
+                        <ol>
+                            <li>
+                                <strong>5. Rukuk</strong>
+                                <div class="gambar">
+                                    <video controls="controls" src="Rukuk.mp4" alt="Video Rukuk"></video>
+                                </div>
+                                <p class="arabic">سُبْحَانَكَ ٱللَّهُمَّ رَبَّنَا وَبِحَمْدِكَ، ٱللَّهُمَّ ٱغْفِرْ لِي</p>
+                                <p class="latin">"Subhaanakallāhumma rabbanā wa bi hamdik. Allāhummaghfir lī."</p>
+                                <p class="translation">"Maha Suci Engkau ya Allah, Tuhan kami. Segala puji bagi-Mu wahai Tuhanku."</p>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div id="itidal-detail" class="sholat-detail">
+                        <ol>
+                            <li>
+                                <strong>6. I'tidal</strong>
+                                <div class="gambar">
+                                    <video controls="controls" src="I'tidal.mp4" alt="Video I'tidal"></video>
+                                </div>
+                                <p class="arabic">سَمِعَ اللهُ لِمَنْ حَمِدَهُ</p>
+                                <p class="latin">"Sami'allaahu liman hamidah."</p>
+                                <p class="translation">"Allah mendengar orang yang memuji-Nya."</p>
+                                <p class="arabic">رَبَّنَا لَكَ الْحَمْدُ، مِلْءَ السَّمَاوَاتِ، وَمِلْءَ
+                                    الْأَرْضِ، وَمِلْءَ مَا شِئْتَ مِنْ شَيْءٍ بَعْدُ</p>
+                                <p class="latin">"Rabbanaa lakal hamdu mil’as-samaawaati wa mil’al-ardhi wa
+                                    mil’a maa shi’ta min syai’in ba’d ."</p>
+                                <p class="translation">"Ya Tuhan kami, bagi-Mu segala puji sepenuh langit,
+                                    sepenuh bumi, dan sepenuh apa saja yang Engkau kehendaki setelah itu."</p>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div id="sujud-detail" class="sholat-detail">
+                        <ol>
+                            <li>
+                                <strong>7. Sujud</strong>
+                                <div class="gambar">
+                                    <video controls="controls" src="Sujud.mp4" alt="Video Sujud"></video>
+                                </div>
+                                <p class="arabic">سُبْحَانَكَ ٱللَّهُمَّ رَبَّنَا وَبِحَمْدِكَ، ٱللَّهُمَّ ٱغْفِرْ لِي</p>
+                                <p class="latin">"Subhaanakallāhumma rabbanā wa bi hamdik. Allāhummaghfir lī.</p>
+                                <p class="translation">"Maha Suci Engkau ya Allah, Tuhan kami. Segala puji bagi-Mu wahai Tuhanku."</p>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div id="duduk-dua-sujud-detail" class="sholat-detail">
+                        <ol>
+                            <li>
+                                <strong>8. Duduk Diantara Dua Sujud</strong>
+                                <div class="gambar">
+                                    <video
+                                        controls="controls"
+                                        src="Duduk_Antara_Dua_Sujud.mp4"
+                                        alt="Video Duduk Antara Dua Sujud"></video>
+                                </div>
+                                <p class="arabic">ٱللَّهُمَّ ٱغْفِرْ لِي، وَٱرْحَمْنِي، وَٱجْبُرْنِي، وَٱهْدِنِي، وَٱرْزُقْنِي</p>
+                                <p class="latin">"Allāhumma’ghfirlī, warḥamnī, wajburnī, wahdinī, warzuqnī. "</p>
+                                <p class="translation">"Ya Allah, ampunilah aku, rahmatilah aku, cukupkanlah
+                                    (kebutuhanku), berilah aku petunjuk, dan rezekilah aku."</p>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div id="tasyahud-awal-detail" class="sholat-detail">
+                        <ol>
+                            <li>
+                                <strong>9. Tasyahud Awal</strong>
+                                <div class="gambar">
+                                    <video controls="controls" src="Tasyahud_Awal.mp4" alt="Video Tasyahud Akhir"></video>
+                                </div>
+                                <p class="arabic">ٱلتَّحِيَّاتُ لِلَّهِ وَٱلصَّلَوَاتُ وَٱلطَّيِّبَاتُ،
+                                    ٱلسَّلَامُ عَلَيْكَ أَيُّهَا ٱلنَّبِيُّ وَرَحْمَةُ ٱللَّهِ وَبَرَكَاتُهُ،
+                                    ٱلسَّلَامُ عَلَيْنَا وَعَلَىٰ عِبَادِ ٱللَّهِ ٱلصَّالِحِينَ، أَشْهَدُ أَنْ لَا
+                                    إِلَٰهَ إِلَّا ٱللَّهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ..</p>
+                                <p class="latin">"Attahiyyaatu lillaahi washsholawaatu waththoyyibaat. Assalaamu
+                                    ‘alaika ayyuhannabiyyu warohmatullaahi wabarokaatuh. Assalaamu’alainaa wa’ala
+                                    ‘ibaadillaahi shshoolihiin. Asyhadu anlaa ilaaha illallaah waasyhadu
+                                    annamuhammadan ‘abduhu warosuuluh. "</p>
+                                <p class="translation">"Segala kehormatan, kebahagiaan dan kebagusan adalah
+                                    kepunyaan Allah. Semoga keselamatan bagi Engkau, ya Nabi Muhammad, beserta
+                                    rahmat dan kebahagiaan Allah. Mudah-mudahan keselamatan juga bagi kita sekalian
+                                    dan hamba-hamba Allah yang baik-baik. Aku bersaksi bahwa tiada Tuhan melainkan
+                                    Allah dan aku bersaksi bahwa Muhammad itu hamba Allah dan utusan-Nya."</p>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div id="tasyahud-akhir-detail" class="sholat-detail">
+                        <ol>
+                            <li>
+                                <strong>10. Tasyahud Akhir</strong>
+                                <div class="gambar">
+                                    <video controls="controls" src="Tasyahud_Akhir.mp4" alt="Video Tasyahud Akhir"></video>
+                                </div>
+                                <p class="arabic">اَلتَّحِيَّاتُ الْمُبَارَكَاتُ الصَّلَوَاتُ الطَّيِّبَاتُ
+                                    لِلَّهِ، اَلسَّلَامُ عَلَيْكَ أَيُّهَا النَّبِيُّ وَرَحْمَةُ اللَّهِ
+                                    وَبَرَكَاتُهُ، اَلسَّلَامُ عَلَيْنَا وَعَلَى عِبَادِ اللَّهِ الصَّالِحِينَ،
+                                    أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا رَسُولُ
+                                    اللَّهِ. اَللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ، كَمَا
+                                    صَلَّيْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ، وَبَارِكْ عَلَى مُحَمَّدٍ
+                                    وَعَلَى آلِ مُحَمَّدٍ، كَمَا بَارَكْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ
+                                    إِبْرَاهِيمَ، فِي الْعَالَمِينَ إِنَّكَ حَمِيدٌ مَجِيدٌ.</p>
+                                <p class="latin">"Attahiyyaatul mubaarokaatush sholawaatuth thoyyibaatu lillaah.
+                                    Assalaamu 'alaika ayyuhan nabiyyu warohmatullaahi wabarokaatuh. Assalaamu
+                                    'alainaa wa 'alaa 'ibaadillaahish shoolihiin. Asyhadu allaa ilaaha illallaah wa
+                                    asyhadu anna Muhammadar Rosuulullaah. Allaahumma sholli 'alaa Muhammad wa 'alaa
+                                    aali Muhammad kamaa shollaita 'alaa Ibroohiim wa 'alaa aali Ibroohiim, wa baarik
+                                    'alaa Muhammad wa 'alaa aali Muhammad kamaa baarokta 'alaa Ibroohiim wa 'alaa
+                                    aali Ibroohiim fil 'aalamiina innaka hamiidum majiid."</p>
+                                <p class="translation">"Segala penghormatan yang penuh berkah, rahmat, dan
+                                    kebaikan adalah milik Allah. Salam sejahtera atasmu wahai Nabi, serta rahmat
+                                    Allah dan keberkahan-Nya. Salam sejahtera atas kami dan atas hamba-hamba Allah
+                                    yang saleh. Aku bersaksi bahwa tiada Tuhan selain Allah dan aku bersaksi bahwa
+                                    Muhammad adalah utusan Allah. Ya Allah, limpahkanlah rahmat kepada Muhammad dan
+                                    keluarga Muhammad, sebagaimana Engkau telah melimpahkan rahmat kepada Ibrahim
+                                    dan keluarga Ibrahim. Dan berkahilah Muhammad dan keluarga Muhammad, sebagaimana
+                                    Engkau telah memberkahi Ibrahim dan keluarga Ibrahim di seluruh alam.
+                                    Sesungguhnya Engkau Maha Terpuji lagi Maha Mulia."</p>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div id="salam-detail" class="sholat-detail">
+                        <ol>
+                            <li>
+                                <strong>11. Salam</strong>
+                                <div class="gambar">
+                                    <video controls="controls" src="Salam.mp4" alt="Video Tasyahud Akhir"></video>
+                                </div>
+                                <p class="arabic">السَّلاَمُ عَلَيْكُمْ وَرَحْمَةُ اللَّهِ.</p>
+                                <p class="latin">"Assalamu ’alaikum wa rahmatullah "</p>
+                                <p class="translation">"Semoga keselamatan dan rahmat Allah tercurah atasmu"</p>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div id="salam-detail" class="sholat-detail">
+                        <ol>
+                            <li>
+                                <strong>10. Salam</strong>
+                                <div class="gambar">
+                                    <video
+                                        controls="controls"
+                                        src="https://www.w3schools.com/html/mov_bbb.mp4"
+                                        alt="Video Salam"></video>
+                                </div>
+                                <p class="hadap">Ke kanan :</p>
+                                <p class="arabic">السَّلاَمُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ</p>
+                                <p class="latin">"Assalamu 'alaikum warahmatullahi wabarakatuh."</p>
+                                <p class="translation">"Semoga keselamatan dan rahmat Allah serta keberkahan-Nya
+                                    terlimpah atas kalian."</p>
+                                <p class="hadap">Ke kiri :</p>
+                                <p class="arabic">السَّلاَمُ عَلَيْكُمْ وَرَحْمَةُ اللهِ</p>
+                                <p class="latin">"Assalamu 'alaikum warahmatullahi."</p>
+                                <p class="translation">"Semoga keselamatan dan rahmat Allah terlimpah atas kalian."</p>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const dashboardItems = document.querySelectorAll('.dashboard-item');
+                const sholatDetails = document.querySelectorAll('.sholat-detail');
+
+                function showDetail(targetId) {
+                    sholatDetails.forEach(detail => {
+                        detail
+                            .classList
+                            .remove('active');
+                    });
+                    const targetDetail = document.getElementById(targetId);
+                    if (targetDetail) {
+                        targetDetail
+                            .classList
+                            .add('active');
+                    }
+                }
+
+                function setActiveDashboardItem(clickedItem) {
+                    dashboardItems.forEach(item => {
+                        item
+                            .classList
+                            .remove('active');
+                    });
+                    clickedItem
+                        .classList
+                        .add('active');
+                }
+
+                dashboardItems.forEach(item => {
+                    item.addEventListener('click', function () {
+                        const targetId = this.dataset.target;
+                        showDetail(targetId);
+                        setActiveDashboardItem(this);
+                    });
+                });
+
+                // Initially show the first detail and set it as active
+                if (dashboardItems.length > 0) {
+                    const firstItem = dashboardItems[0];
+                    const firstTargetId = firstItem.dataset.target;
+
+                    showDetail(firstTargetId);
+                    setActiveDashboardItem(firstItem);
+                }
+
+                // KODE BARU: Logika untuk menampilkan scrollbar saat menggulir
+                const scrollableElements = document.querySelectorAll(
+                    '.dashboard-container, .sholat-guide-container'
+                );
+
+                scrollableElements.forEach(element => {
+                    let scrollTimeout; // Deklarasi timer untuk setiap elemen
+
+                    element.addEventListener('scroll', function () {
+                        // 1. Tambahkan class 'scrolling' untuk memunculkan scrollbar
+                        this
+                            .classList
+                            .add('scrolling');
+
+                        // 2. Hapus timer yang ada jika pengguna masih menggulir
+                        clearTimeout(scrollTimeout);
+
+                        // 3. Set timer baru. Jika tidak ada aktivitas scroll selama 1.5 detik, hapus
+                        // class 'scrolling'
+                        scrollTimeout = setTimeout(() => {
+                            this
+                                .classList
+                                .remove('scrolling');
+                        }, 1500); // 1500 ms = 1.5 detik
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>

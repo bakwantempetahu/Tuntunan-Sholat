@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tuntunan Sholat - Beranda</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body class="bg-gray-50 font-['Poppins',_sans-serif] text-gray-800">
+
+     <header>
+            <div class="container">
+                <div class="logo">
+                    <i class="fas fa-mosque"></i>
+                    Tuntunan Sholat
+                </div>
+                <nav>
+                <ul>
+                    <li>
+                        <a href="index.html" style="color: var(--secondary-color);">Beranda</a>
+                    </li>
+                    <li>
+                        <a href="tata-cara.html">Tata Cara Sholat</a>
+                    </li>
+                    <li>
+                        <a href="doa-dzikir.html">Doa-doa</a>
+                    </li>
+                    <li>
+                        <a href="waktu-sholat.html">Waktu Sholat</a>
+                    </li>
+                    <li>
+                        <a href="artikel.html">Artikel</a>
+                    </li>
+                </ul>
+                </nav>
+                <form class="form-inline my-2 my-lg-0">
+                    <input
+                        class="form-control mr-sm-2"
+                        type="search"
+                        placeholder="Search"
+                        aria-label="Search"/>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </form>
+            </div>
+        </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="relative h-[60vh] min-h-[400px] bg-cover bg-center text-white" style="background-image: url('islamic-architecture-ivan-a431e1.jpg');">
+            <div class="absolute inset-0 bg-black/50"></div>
+            <div class="relative container mx-auto px-6 h-full flex flex-col justify-center items-center text-center">
+                <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-4">Memahami Sholat Lebih Baik</h1>
+                <p class="text-lg md:text-xl max-w-2xl mb-8">Panduan ibadah sholat sehari-hari untuk meraih ketenangan jiwa dan mendekatkan diri kepada-Nya.</p>
+                <a href="tata-cara.html" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-full transition-transform duration-300 transform hover:scale-105">
+                    Mulai Belajar
+                </a>
+            </div>
+        </section>
+
+        <!-- Fitur Utama / Navigasi Konten -->
+        <section id="features" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800">Jelajahi Konten Islami</h2>
+                    <p class="text-gray-600 mt-2">Temukan berbagai panduan dan pengetahuan untuk memperdalam iman Anda.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Card Tata Cara -->
+                    <a href="tata-cara.html" class="feature-card">
+                        <div class="p-6">
+                            <i class="fas fa-person-praying text-4xl text-emerald-600 mb-4"></i>
+                            <h3 class="text-xl font-bold mb-2">Tata Cara Sholat</h3>
+                            <p class="text-gray-600">Panduan lengkap gerakan dan bacaan sholat fardhu, dari niat hingga salam.</p>
+                        </div>
+                    </a>
+                    <!-- Card Doa & Dzikir -->
+                    <a href="doa-dzikir.html" class="feature-card">
+                        <div class="p-6">
+                            <i class="fas fa-book-quran text-4xl text-emerald-600 mb-4"></i>
+                            <h3 class="text-xl font-bold mb-2">Doa & Dzikir</h3>
+                            <p class="text-gray-600">Kumpulan doa harian dan dzikir setelah sholat untuk menenangkan hati.</p>
+                        </div>
+                    </a>
+                    <!-- Card Waktu Sholat -->
+                    <a href="waktu-sholat.html" class="feature-card">
+                        <div class="p-6">
+                            <i class="fas fa-clock text-4xl text-emerald-600 mb-4"></i>
+                            <h3 class="text-xl font-bold mb-2">Waktu Sholat</h3>
+                            <p class="text-gray-600">Jadwal sholat akurat berdasarkan lokasi Anda, dilengkapi notifikasi.</p>
+                        </div>
+                    </a>
+                    <!-- Card Artikel -->
+                    <a href="artikel.html" class="feature-card">
+                        <div class="p-6">
+                            <i class="fas fa-newspaper text-4xl text-emerald-600 mb-4"></i>
+                            <h3 class="text-xl font-bold mb-2">Artikel Islami</h3>
+                            <p class="text-gray-600">Baca artikel inspiratif seputar fiqih, akhlak, dan keutamaan ibadah.</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Jadwal Sholat Statis -->
+        <section id="jadwal-sholat" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800">Jadwal Sholat Hari Ini</h2>
+                    <p id="location" class="text-gray-600 mt-2"><i class="fas fa-map-marker-alt mr-2"></i>Mendeteksi lokasi...</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 text-center">
+                    <!-- Subuh -->
+                    <div class="bg-white p-6 rounded-xl shadow-md transform hover:-translate-y-2 transition-transform duration-300">
+                        <h3 class="text-xl font-semibold text-gray-700">Subuh</h3>
+                        <p id="subuh-time" class="text-2xl font-bold text-gray-800 mt-2">--:--</p>
+                    </div>
+                    <!-- Dzuhur -->
+                    <div class="bg-white p-6 rounded-xl shadow-md transform hover:-translate-y-2 transition-transform duration-300">
+                        <h3 class="text-xl font-semibold text-gray-700">Dzuhur</h3>
+                        <p id="dzuhur-time" class="text-2xl font-bold text-gray-800 mt-2">--:--</p>
+                    </div>
+                    <!-- Ashar -->
+                    <div class="bg-white p-6 rounded-xl shadow-md transform hover:-translate-y-2 transition-transform duration-300">
+                        <h3 class="text-xl font-semibold text-gray-700">Ashar</h3>
+                        <p id="ashar-time" class="text-2xl font-bold text-gray-800 mt-2">--:--</p>
+                    </div>
+                    <!-- Maghrib -->
+                    <div class="bg-white p-6 rounded-xl shadow-md transform hover:-translate-y-2 transition-transform duration-300">
+                        <h3 class="text-xl font-semibold text-gray-700">Maghrib</h3>
+                        <p id="maghrib-time" class="text-2xl font-bold text-gray-800 mt-2">--:--</p>
+                    </div>
+                    <!-- Isya -->
+                    <div class="bg-white p-6 rounded-xl shadow-md transform hover:-translate-y-2 transition-transform duration-300">
+                        <h3 class="text-xl font-semibold text-gray-700">Isya</h3>
+                        <p id="isya-time" class="text-2xl font-bold text-gray-800 mt-2">--:--</p>
+                    </div>
+                </div>
+                <div class="text-center mt-12">
+                    <a href="waktu-sholat.html" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-full transition-transform duration-300 transform hover:scale-105 inline-block">
+                        Lihat Waktu Sholat Lengkap
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Artikel Pilihan -->
+        <section id="latest-articles" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-800">Artikel Pilihan Untuk Anda</h2>
+                    <p class="text-gray-600 mt-2">Wawasan baru untuk memperkaya pemahaman Islam Anda.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Artikel 1 -->
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
+                        <img src="keutamaansolat.webp" alt="Gambar artikel tentang keutamaan sholat" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <span class="text-sm text-gray-500">Fiqih Ibadah</span>
+                            <h3 class="text-xl font-bold my-2">Keutamaan Sholat Tepat Waktu</h3>
+                            <p class="text-gray-600 mb-4">Sholat adalah tiang agama. Menjaganya tepat waktu memiliki ganjaran yang luar biasa...</p>
+                            <a href="artikel.html" class="font-semibold text-emerald-600 hover:text-emerald-700">Baca Selengkapnya &rarr;</a>
+                        </div>
+                    </div>
+                    <!-- Artikel 2 -->
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
+                        <img src="adabberdoa.jpeg" alt="Gambar artikel tentang adab berdoa" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <span class="text-sm text-gray-500">Akhlak</span>
+                            <h3 class="text-xl font-bold my-2">5 Adab Agar Doa Mudah Terkabul</h3>
+                            <p class="text-gray-600 mb-4">Berdoa bukan hanya meminta, tapi juga tentang bagaimana kita berinteraksi dengan Sang Pencipta...</p>
+                            <a href="artikel.html" class="font-semibold text-emerald-600 hover:text-emerald-700">Baca Selengkapnya &rarr;</a>
+                        </div>
+                    </div>
+                    <!-- Artikel 3 -->
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
+                        <img src="sholatrawatib.webp" alt="Gambar artikel tentang dzikir pagi" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <span class="text-sm text-gray-500">Amalan</span>
+                            <h3 class="text-xl font-bold my-2">Sholat Sunnah Rawatib: Penyempurna Ibadah Fardhu</h3>
+                            <p class="text-gray-600 mb-4">Kenali jenis-jenis sholat sunnah yang mengiringi sholat fardhu, keutamaannya, dan bagaimana melaksanakannya.</p>
+                            <a href="artikel.html" class="font-semibold text-emerald-600 hover:text-emerald-700">Baca Selengkapnya &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Kolom 1: Tentang -->
+                <div class="md:col-span-2">
+                    <h3 class="text-lg font-bold mb-4">Tuntunan Sholat</h3>
+                    <p class="text-gray-400 max-w-md">Sebuah platform digital yang didedikasikan untuk menyediakan panduan ibadah sholat yang komprehensif dan mudah diakses bagi seluruh umat Muslim.</p>
+                </div>
+                <!-- Kolom 2: Tautan Cepat -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Tautan Cepat</h3>
+                    <ul class="space-y-2">
+                        <li><a href="tata-cara.html" class="text-gray-400 hover:text-white">Tata Cara Sholat</a></li>
+                        <li><a href="doa-dzikir.html" class="text-gray-400 hover:text-white">Doa & Dzikir</a></li>
+                        <li><a href="waktu-sholat.html" class="text-gray-400 hover:text-white">Waktu Sholat</a></li>
+                        <li><a href="artikel.html" class="text-gray-400 hover:text-white">Artikel</a></li>
+                    </ul>
+                </div>
+                <!-- Kolom 3: Ikuti Kami -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Ikuti Kami</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white text-2xl"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white text-2xl"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white text-2xl"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-gray-700 pt-6 text-center text-gray-500">
+                <p>&copy; 2025 Tuntunan Sholat. Semua Hak Dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Script untuk Mobile Menu
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // --- Script untuk menampilkan Jadwal Sholat ---
+
+        // Jadwal sholat cadangan (Pontianak) jika API gagal atau lokasi tidak diizinkan
+        const fallbackPrayerTimes = {
+            Fajr: '04:38',
+            Dhuhr: '11:58',
+            Asr: '15:21',
+            Maghrib: '18:00',
+            Isha: '19:12'
+        };
+
+        // Fungsi untuk mengupdate UI dengan jadwal sholat
+        function updatePrayerTimeUI(times) {
+            document.getElementById('subuh-time').textContent = times.Fajr;
+            document.getElementById('dzuhur-time').textContent = times.Dhuhr;
+            document.getElementById('ashar-time').textContent = times.Asr;
+            document.getElementById('maghrib-time').textContent = times.Maghrib;
+            document.getElementById('isya-time').textContent = times.Isha;
+        }
+
+        // Fungsi untuk mendapatkan nama kota dari koordinat
+        function getCityName(latitude, longitude) {
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`)
+                .then(response => response.json())
+                .then(data => {
+                    const city = data.address.city || data.address.town || data.address.state || "Lokasi Anda";
+                    document.getElementById('location').innerHTML = `<i class="fas fa-map-marker-alt mr-2"></i>${city}`;
+                })
+                .catch(error => {
+                    console.error("Error getting city name:", error);
+                    document.getElementById('location').innerHTML = `<i class="fas fa-map-marker-alt mr-2"></i>Lokasi Anda`;
+                });
+        }
+
+        // Fungsi untuk mendapatkan waktu sholat dari API Aladhan
+        function getPrayerTimes(latitude, longitude) {
+            const date = new Date();
+            const apiURL = `https://api.aladhan.com/v1/timings/${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}?latitude=${latitude}&longitude=${longitude}&method=11`; // Method 11: Kemenag
+
+            fetch(apiURL)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.code === 200) {
+                        updatePrayerTimeUI(data.data.timings);
+                    } else {
+                        throw new Error('API response not successful');
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching prayer times:", error);
+                    document.getElementById('location').innerHTML = `<i class="fas fa-map-marker-alt mr-2"></i>Pontianak (Jadwal Cadangan)`;
+                    updatePrayerTimeUI(fallbackPrayerTimes);
+                });
+        }
+
+        // Fungsi utama untuk mendapatkan lokasi dan jadwal sholat
+        function initPrayerTimes() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const { latitude, longitude } = position.coords;
+                        getCityName(latitude, longitude);
+                        getPrayerTimes(latitude, longitude);
+                    },
+                    (error) => {
+                        console.warn("Gagal mendapatkan lokasi. Menggunakan jadwal cadangan.", error);
+                        document.getElementById('location').innerHTML = `<i class="fas fa-map-marker-alt mr-2"></i>Pontianak (Jadwal Cadangan)`;
+                        updatePrayerTimeUI(fallbackPrayerTimes);
+                    }
+                );
+            } else {
+                console.warn("Geolocation tidak didukung. Menggunakan jadwal cadangan.");
+                document.getElementById('location').innerHTML = `<i class="fas fa-map-marker-alt mr-2"></i>Pontianak (Jadwal Cadangan)`;
+                updatePrayerTimeUI(fallbackPrayerTimes);
+            }
+        }
+
+        // Jalankan semua fungsi saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', () => {
+            initPrayerTimes();
+        });
+    </script>
+
+</body>
+</html>
