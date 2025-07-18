@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Waktu Sholat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4efe9 100%);
+            min-height: 100vh;
+        }
+        
+        .prayer-card {
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .prayer-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .active-prayer {
+            border: 3px solid #3b82f6;
+            animation: pulse 2s infinite;
+            background-color: #eff6ff;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+        
+        .countdown-animation {
+            animation: bounce 1.5s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+        <header>
+            <div class="container">
+                <div class="logo">
+                    <i class="fas fa-mosque"></i>
+                    Tuntunan Sholat
+                </div>
+                <nav>
+                <ul>
+                    <li>
+                        <a href="index.html">Beranda</a>
+                    </li>
+                    <li>
+                        <a href="tata-cara.html">Tata Cara Sholat</a>
+                    </li>
+                    <li>
+                        <a href="doa-dzikir.html">Doa-doa</a>
+                    </li>
+                    <li>
+                        <a href="waktu-sholat.html" style="color: var(--secondary-color);">Waktu Sholat</a>
+                    </li>
+                    <li>
+                        <a href="artikel.html">Artikel</a>
+                    </li>
+                </ul>
+                </nav>
+                <form class="form-inline my-2 my-lg-0">
+                    <input
+                        class="form-control mr-sm-2"
+                        type="search"
+                        placeholder="Search"
+                        aria-label="Search"/>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </form>
+            </div>
+        </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <div class="max-w-4xl mx-auto text-center mb-12">
+            <h2 class="text-4xl font-bold text-green-700 mb-4">Waktu Sholat</h2>
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <div class="flex flex-col md:flex-row justify-around items-center gap-4">
+                    <div class="w-full md:w-auto mb-4 md:mb-0">
+                        <h3 class="text-xl font-semibold text-gray-700 mb-2">Lokasi Saat Ini</h3>
+                        <div id="location" class="text-lg font-medium text-gray-800">Mendeteksi lokasi...</div>
+                    </div>
+                     <div class="w-full md:w-auto">
+                        <h3 class="text-xl font-semibold text-gray-700 mb-2">Tanggal Hari Ini</h3>
+                        <div id="current-date" class="text-lg font-medium text-gray-800"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-lg p-4 mb-8">
+                <h3 class="text-xl font-semibold text-gray-700">Jam Saat Ini</h3>
+                <div id="current-clock" class="text-5xl font-bold text-green-600 tracking-wider"></div>
+            </div>
+            
+            <div id="countdown-container" class="bg-blue-600 text-white rounded-lg p-6 mb-8 shadow-xl">
+                <h3 class="text-2xl font-bold mb-4">Menuju Waktu <span id="next-prayer-name">...</span></h3>
+                <div class="flex justify-center items-center gap-6 countdown-animation">
+                    <div>
+                        <div id="countdown-hours" class="text-5xl font-bold">00</div>
+                        <div class="text-sm">Jam</div>
+                    </div>
+                    <div class="text-5xl">:</div>
+                    <div>
+                        <div id="countdown-minutes" class="text-5xl font-bold">00</div>
+                        <div class="text-sm">Menit</div>
+                    </div>
+                    <div class="text-5xl">:</div>
+                    <div>
+                        <div id="countdown-seconds" class="text-5xl font-bold">00</div>
+                        <div class="text-sm">Detik</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-10">
+            <div id="fajr-card" class="prayer-card bg-white rounded-xl p-6 text-center">
+                <i class="fas fa-moon text-4xl text-blue-500 mb-3"></i>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Subuh</h3>
+                <div id="fajr-time" class="text-3xl font-bold text-blue-600">05:00</div>
+            </div>
+            <div id="dhuhr-card" class="prayer-card bg-white rounded-xl p-6 text-center">
+                 <i class="fas fa-sun text-4xl text-green-500 mb-3"></i>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Dzuhur</h3>
+                <div id="dhuhr-time" class="text-3xl font-bold text-green-600">12:00</div>
+            </div>
+            <div id="asr-card" class="prayer-card bg-white rounded-xl p-6 text-center">
+                 <i class="fas fa-cloud-sun text-4xl text-yellow-500 mb-3"></i>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Ashar</h3>
+                <div id="asr-time" class="text-3xl font-bold text-yellow-600">15:00</div>
+            </div>
+            <div id="maghrib-card" class="prayer-card bg-white rounded-xl p-6 text-center">
+                <i class="fas fa-mosque text-4xl text-red-500 mb-3"></i>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Maghrib</h3>
+                <div id="maghrib-time" class="text-3xl font-bold text-red-600">18:00</div>
+            </div>
+             <div id="isha-card" class="prayer-card bg-white rounded-xl p-6 text-center">
+                <i class="fas fa-star-and-crescent text-4xl text-indigo-500 mb-3"></i>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Isya</h3>
+                <div id="isha-time" class="text-3xl font-bold text-indigo-600">19:30</div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <h3 class="text-2xl font-bold text-gray-800 mb-4">Daftar Masjid Terdekat</h3>
+            <div id="nearby-mosques" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-gray-50 rounded-lg p-4 flex items-center">
+                    <div>
+                        <h4 class="font-bold text-lg">Mencari masjid terdekat...</h4>
+                        <p class="text-gray-600">Mendeteksi lokasi Anda</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-white">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Kolom 1: Tentang -->
+                <div class="md:col-span-2">
+                    <h3 class="text-lg font-bold mb-4">Tuntunan Sholat</h3>
+                    <p class="text-gray-400 max-w-md">Sebuah platform digital yang didedikasikan untuk menyediakan panduan ibadah sholat yang komprehensif dan mudah diakses bagi seluruh umat Muslim.</p>
+                </div>
+                <!-- Kolom 2: Tautan Cepat -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Tautan Cepat</h3>
+                    <ul class="space-y-2">
+                        <li><a href="tata-cara.html" class="text-gray-400 hover:text-white">Tata Cara Sholat</a></li>
+                        <li><a href="doa-dzikir.html" class="text-gray-400 hover:text-white">Doa & Dzikir</a></li>
+                        <li><a href="waktu-sholat.html" class="text-gray-400 hover:text-white">Waktu Sholat</a></li>
+                        <li><a href="artikel.html" class="text-gray-400 hover:text-white">Artikel</a></li>
+                    </ul>
+                </div>
+                <!-- Kolom 3: Ikuti Kami -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Ikuti Kami</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white text-2xl"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white text-2xl"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white text-2xl"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-gray-700 pt-6 text-center text-gray-500">
+                <p>&copy; 2025 Tuntunan Sholat. Semua Hak Dilindungi.</p>
+            </div>
+        </div>
+    </footer>
+
+<script>
+    // Variabel global untuk interval
+    let prayerCountdownInterval;
+
+    // Jadwal sholat cadangan untuk Pontianak
+    const fallbackPrayerTimes = {
+        subuh: '04:38',
+        dzuhur: '11:58',
+        ashar: '15:21',
+        maghrib: '18:00',
+        isya: '19:12'
+    };
+
+    // FUNGSI DIPERBARUI: Menampilkan daftar masjid dengan gambar dan link arah
+    function displayFamousMosques() {
+        const mosques = [
+            {
+                name: 'Masjid Raya Mujahidin',
+                address: 'Jl. Jenderal Ahmad Yani, Akcaya',
+                // URL Gambar dari sumber publik
+                imageUrl: 'https://app.syiar.id/foto/aset/0d9ffbe2-90bb-4d4c-bba8-7308459f3601.jpeg',
+                // Teks untuk query pencarian di Google Maps
+                query: 'Masjid Raya Mujahidin Pontianak'
+            },
+            {
+                name: "Masjid Jami' Sultan Syarif Abdurrahman",
+                address: 'Kampung Beting, Pontianak Timur',
+                imageUrl: 'https://pontianakinformasi.co.id/wp-content/uploads/2023/02/masjid-jami-pontianak.jpg',
+                query: "Masjid Jami' Sultan Syarif Abdurrahman Pontianak"
+            },
+            {
+                name: 'Masjid Kapal Munzalan',
+                address: 'Jl. Komp. Munzalan, Sungai Raya',
+                imageUrl: 'https://masjidkapalmunzalan.id/wp-content/uploads/elementor/thumbs/28600679033_c6a812e18d_be-q2ta6b37w4ai2meiicc034pij4v27ooeuccr65gv5k.jpg',
+                query: 'Masjid Kapal Munzalan Pontianak'
+            }
+        ];
+
+        const container = document.getElementById('nearby-mosques');
+        container.innerHTML = ''; // Kosongkan kontainer
+
+        mosques.forEach(mosque => {
+            // Encode query untuk URL yang aman
+            const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mosque.query)}`;
+            
+            // Template HTML baru untuk kartu masjid dengan gambar dan tombol
+            const mosqueCard = `
+                <div class="bg-white rounded-xl shadow-md overflow-hidden transform hover:scale-105 transition-transform duration-300">
+                    <img class="h-40 w-full object-cover" src="${mosque.imageUrl}" alt="Gambar ${mosque.name}">
+                    <div class="p-4">
+                        <h4 class="text-lg font-bold text-gray-800">${mosque.name}</h4>
+                        <p class="text-sm text-gray-600 mt-1">${mosque.address}</p>
+                        <a href="${googleMapsUrl}" target="_blank" rel="noopener noreferrer" 
+                           class="mt-4 inline-block bg-green-600 text-white font-semibold px-4 py-2 rounded-lg text-sm hover:bg-green-700 transition-colors">
+                           <i class="fas fa-directions mr-2"></i>Lihat Arah
+                        </a>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += mosqueCard;
+        });
+    }
+
+    // Fungsi untuk menggunakan jadwal cadangan
+    function useFallbackTimes() {
+        console.log("Menggunakan jadwal sholat cadangan.");
+        document.getElementById('location').textContent = "Jadwal Cadangan (Pontianak)";
+        document.getElementById('fajr-time').textContent = fallbackPrayerTimes.subuh;
+        document.getElementById('dhuhr-time').textContent = fallbackPrayerTimes.dzuhur;
+        document.getElementById('asr-time').textContent = fallbackPrayerTimes.ashar;
+        document.getElementById('maghrib-time').textContent = fallbackPrayerTimes.maghrib;
+        document.getElementById('isha-time').textContent = fallbackPrayerTimes.isya;
+        setupPrayerCountdown(fallbackPrayerTimes);
+    }
+
+    // Fungsi untuk menampilkan tanggal sekarang
+    function showCurrentDate() {
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const dateString = new Date().toLocaleDateString('id-ID', options);
+        document.getElementById('current-date').textContent = dateString;
+    }
+
+    // Fungsi untuk jam digital
+    function updateLiveClock() {
+        const timeString = new Date().toTimeString().split(' ')[0];
+        const clockElement = document.getElementById('current-clock');
+        if (clockElement) {
+           clockElement.textContent = timeString;
+        }
+    }
+
+    // Fungsi untuk mendapatkan lokasi
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const { latitude, longitude } = position.coords;
+                    getCityName(latitude, longitude);
+                    getPrayerTimes(latitude, longitude);
+                },
+                (error) => {
+                    console.error("Error getting location:", error);
+                    useFallbackTimes();
+                }
+            );
+        } else {
+            useFallbackTimes();
+        }
+    }
+
+    // Fungsi untuk mendapatkan nama kota
+    function getCityName(latitude, longitude) {
+        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`)
+            .then(response => response.json())
+            .then(data => {
+                const city = data.address.city || data.address.town || data.address.village || "Lokasi";
+                const state = data.address.state || data.address.province || "Tidak Dikenal";
+                document.getElementById('location').textContent = `${city}, ${state}`;
+            })
+            .catch(error => {
+                console.error("Error getting city name:", error);
+            });
+    }
+
+    // Fungsi untuk mendapatkan waktu sholat dari API
+    function getPrayerTimes(latitude, longitude) {
+        const date = new Date();
+        const apiURL = `https://api.aladhan.com/v1/timings/${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}?latitude=${latitude}&longitude=${longitude}&method=11`;
+
+        fetch(apiURL)
+            .then(response => response.json())
+            .then(data => {
+                if (data.code === 200) {
+                    const prayerData = {
+                        subuh: data.data.timings.Fajr,
+                        dzuhur: data.data.timings.Dhuhr,
+                        ashar: data.data.timings.Asr,
+                        maghrib: data.data.timings.Maghrib,
+                        isya: data.data.timings.Isha
+                    };
+                    document.getElementById('fajr-time').textContent = prayerData.subuh;
+                    document.getElementById('dhuhr-time').textContent = prayerData.dzuhur;
+                    document.getElementById('asr-time').textContent = prayerData.ashar;
+                    document.getElementById('maghrib-time').textContent = prayerData.maghrib;
+                    document.getElementById('isha-time').textContent = prayerData.isya;
+                    setupPrayerCountdown(prayerData);
+                } else {
+                    throw new Error('API response not successful');
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching prayer times:", error);
+                useFallbackTimes();
+            });
+    }
+
+    // Fungsi untuk setup countdown
+    function setupPrayerCountdown(times) {
+        const now = new Date();
+        const today = now.toISOString().split('T')[0];
+        const prayerTimes = [
+            { name: "Subuh", time: new Date(`${today}T${times.subuh}:00`), element: document.getElementById('fajr-card') },
+            { name: "Dzuhur", time: new Date(`${today}T${times.dzuhur}:00`), element: document.getElementById('dhuhr-card') },
+            { name: "Ashar", time: new Date(`${today}T${times.ashar}:00`), element: document.getElementById('asr-card') },
+            { name: "Maghrib", time: new Date(`${today}T${times.maghrib}:00`), element: document.getElementById('maghrib-card') },
+            { name: "Isya", time: new Date(`${today}T${times.isya}:00`), element: document.getElementById('isha-card') }
+        ];
+
+        let nextPrayer;
+        for (const prayer of prayerTimes) {
+            if (prayer.time > now) {
+                nextPrayer = prayer;
+                break;
+            }
+        }
+
+        if (!nextPrayer) {
+            const tomorrow = new Date(now);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const tomorrowDate = tomorrow.toISOString().split('T')[0];
+            nextPrayer = {
+                name: "Subuh",
+                time: new Date(`${tomorrowDate}T${times.subuh}:00`),
+                element: document.getElementById('fajr-card')
+            };
+        }
+        
+        document.querySelectorAll('.prayer-card').forEach(card => card.classList.remove('active-prayer'));
+        if (nextPrayer.element) {
+            nextPrayer.element.classList.add('active-prayer');
+        }
+        document.getElementById('next-prayer-name').textContent = nextPrayer.name;
+
+        if (prayerCountdownInterval) {
+            clearInterval(prayerCountdownInterval);
+        }
+        
+        updateCountdown(nextPrayer.time);
+        prayerCountdownInterval = setInterval(() => updateCountdown(nextPrayer.time), 1000);
+    }
+    
+    // Fungsi untuk update countdown
+    function updateCountdown(prayerTime) {
+        const now = new Date();
+        const diff = prayerTime - now;
+
+        if (diff < 0) {
+            clearInterval(prayerCountdownInterval);
+            getLocation(); 
+            return;
+        }
+
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        document.getElementById('countdown-hours').textContent = hours.toString().padStart(2, '0');
+        document.getElementById('countdown-minutes').textContent = minutes.toString().padStart(2, '0');
+        document.getElementById('countdown-seconds').textContent = seconds.toString().padStart(2, '0');
+    }
+
+    // Jalankan semua fungsi saat halaman dimuat
+    document.addEventListener('DOMContentLoaded', () => {
+        showCurrentDate();
+        getLocation();
+        displayFamousMosques();
+        updateLiveClock();
+        setInterval(updateLiveClock, 1000);
+    });
+</script>
+
+</body>
